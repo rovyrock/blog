@@ -19538,6 +19538,7 @@ function signToken(id2) {
 async function register_default(req, res) {
   switch (req.method) {
     case "POST":
+      console.log("hashSync", import_bcryptjs.default.hashSync(req.body.password, 8));
       try {
         const prisma = new import_client.PrismaClient();
         const user = await prisma.user.create({
