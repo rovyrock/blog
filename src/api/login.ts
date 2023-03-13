@@ -11,6 +11,7 @@ export default async function (req: UmiApiRequest, res: UmiApiResponse) {
         const user = await prisma.user.findUnique({
           where: { email: req.body.email },
         });
+        console.log('login find User',user)
         if (
           !user ||
           !bcrypt.compareSync(req.body.password, user.passwordHash)

@@ -19,6 +19,7 @@ export function verifyToken(token: string) {
   return new Promise<{ id: number }>((resolve, reject) => {
     jwt.verify(token, secret, (err, payload) => {
       if (err || !payload || !payload) return reject(err);
+      console.log('verifyToken', token, payload)
       resolve(payload as { id: number });
     });
   });

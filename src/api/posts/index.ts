@@ -20,7 +20,8 @@ export default async function (req: UmiApiRequest, res: UmiApiResponse) {
           message: "Unauthorized",
         });
       }
-      const authorId = (await verifyToken(req.cookies.token)).id;
+      const {id: authorId} =  await verifyToken(req.cookies.token);
+      //const authorId = (await verifyToken(req.cookies.token)).id;
       prisma = new PrismaClient();
       const newPost = await prisma.post.create({
         data: {
