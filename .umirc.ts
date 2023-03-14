@@ -14,4 +14,5 @@ export default defineConfig({
   // npmClient: 'pnpm',
   tailwindcss: {},
   plugins: ["@umijs/plugins/dist/tailwindcss"],
+  extraPostCSSPlugins: [require("tailwindcss")],
 });

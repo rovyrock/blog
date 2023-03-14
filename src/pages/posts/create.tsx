@@ -4,11 +4,14 @@ import React, { useEffect, useState } from "react";
 import { history } from 'umi';
 import TextInput from "@/components/TextInput";
 import Button from "@/components/Button";
+import getMarkdown from '@/plugins/markdown';
+import '@/assets/styles/code.scss';
 
 export default function () {
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [html, setHtml] = useState("")
   const [tags, setTags] = useState("");
   const [imageUrl, setImageUrl] = useState("");
 
@@ -18,6 +21,14 @@ export default function () {
       history.push('/login');
     }
   }, []);
+
+  const handleChangeContent = (value: string) => {
+    setContent(value);
+    const md = getMarkdown({});
+    // const html = md.render(post.content)
+    setHtml(md.render(value))
+
+  }
 
   async function submit() {
     try {
@@ -45,18 +56,21 @@ export default function () {
   }
 
   return <div className="w-full flex justify-center">
-    <div className="container lg:px-64 px-8 pt-16">
+    <div className="container flex-1 lg:px-64 px-8 pt-16">
       <p className="text-3xl font-extrabold">发表新文章</p>
       <p className="mt-8">标题</p>
       <TextInput value={title} onChange={setTitle} />
       <p className="mt-8">内文</p>
-      <TextInput textArea value={content} onChange={setContent} />
+      <TextInput textArea value={content} onChange={handleChangeContent} />
       <p className="mt-8">标签 (以逗号隔开)</p>
       <TextInput value={tags} onChange={setTags} />
       <p className="mt-8">封面图片地址</p>
       <TextInput value={imageUrl} onChange={setImageUrl} />
       <img src={imageUrl} alt="" />
       <Button onClick={submit}>发布</Button>
+    </div>
+    <div className="flex-1">
+      <div className="markdown" dangerouslySetInnerHTML={{ __html: html }} />
     </div>
   </div>
 }

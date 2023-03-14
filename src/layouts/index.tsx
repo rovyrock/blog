@@ -1,8 +1,9 @@
 import { Link, Outlet } from 'umi';
 import styles from './index.less';
+import Footer from './footer'
 
 export default function Layout() {
-  return (
+  return (<>
     <div className={styles.navs}>
       <ul>
         <li>
@@ -15,7 +16,11 @@ export default function Layout() {
           <a href="https://github.com/umijs/umi">Github</a>
         </li>
       </ul>
+    </div>
+    <div className='w-full'>
       <Outlet />
     </div>
+    <Footer />
+  </>
   );
 }

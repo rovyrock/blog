@@ -7947,7 +7947,7 @@ var require_client = __commonJS({
           "value": "prisma-client-js"
         },
         "output": {
-          "value": "/Users/rovyrock/Documents/work/umi/blog/node_modules/@prisma/client",
+          "value": "/Users/rovyrock/Documents/work/Learning/umi/blog/node_modules/@prisma/client",
           "fromEnvVar": null
         },
         "config": {
@@ -7959,8 +7959,7 @@ var require_client = __commonJS({
         ]
       },
       "relativeEnvPaths": {
-        "rootEnvPath": "../../../.env",
-        "schemaEnvPath": "../../../.env"
+        "rootEnvPath": null
       },
       "relativePath": "../../../prisma",
       "clientVersion": "4.11.0",
