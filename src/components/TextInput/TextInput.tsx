@@ -1,6 +1,7 @@
 import React, { forwardRef } from "react";
+export type Ref = HTMLTextAreaElement|HTMLInputElement|null;
 
-const TextInput = forwardRef((props: { value: string, onChange(v: string): void, textArea?: boolean }, ref) => {
+const TextInput = forwardRef<Ref, { value: string, onChange(v: string): void, textArea?: boolean }>((props, ref) => {
 
   // function TextInput(props: { value: string, onChange(v: string): void, textArea?: boolean, ref?: }) {
   if (props.textArea) {

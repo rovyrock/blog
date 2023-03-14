@@ -1,6 +1,6 @@
 import MarkdownIt from "markdown-it";
 import type MarkdownItType from "markdown-it";
-
+import Anchor from 'markdown-it-anchor'
 import type { KatexOptions } from "katex";
 import Katex from "markdown-it-katex";
 import Prism from "./markdown-it-prism";
@@ -30,6 +30,7 @@ function getMarkdown(options: MarkdownItType.Options) {
   markdown.use(Prism);
   markdown.use(Katex);
   markdown.use(Flow);
+  markdown.use(Anchor);
 
   return markdown;
 }

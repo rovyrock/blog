@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 // @ts-ignore
 import { useParams } from 'umi';
 import getMarkdown from '@/plugins/markdown';
+import {parseTitle} from "@/utils/toc"
 import '@/assets/styles/code.scss';
 
 export default function PostPage() {
   const params = useParams();
   const [post, setPost] = useState<any>()
   const [html, setHtml] = useState<string>()
+  const [toc, setToc] = useState<{level: number, title: string}[]>()
 
   async function refresh() {
     try {
@@ -16,6 +18,7 @@ export default function PostPage() {
       if (res.status === 200) {
         setPost(post)
         const md = getMarkdown({});
+        setToc(parseTitle({content: post.content}))
         // const html = md.render(post.content)
         setHtml(md.render(post.content))
         console.log('getMarkdown', html)
@@ -37,7 +40,7 @@ export default function PostPage() {
 
   return <div className="max-w-screen overflow-x-hidden">
     {post === undefined && <div
-      className="fixed w-screen h-screen flex justify-center items-center">
+      className="w-screen h-screen flex justify-center items-center">
       <p className="animate-pulse">Loading...</p>
     </div>}
     {post && <>
@@ -63,36 +66,38 @@ export default function PostPage() {
       </div>
       <div className="w-full flex justify-center my-24">
         <div className="w-full container lg:px-64 px-8">
-          {/* {post.content.split('\n').map((line: string, i: number) => {
-            if (line.startsWith('# ')) return <p
-              key={i}
-              className="text-3xl font-extrabold mt-24 mb-12">
-              {line.split('# ')[1]}
-            </p>
-            if (line.startsWith('## ')) return <p
-              key={i}
-              className="text-2xl font-extrabold mt-24 mb-12">
-              {line.split('## ')[1]}
-            </p>;
-            if (line.startsWith('### ')) return <p
-              key={i}
-              className="text-xl font-extrabold mt-24 mb-12">
-              {line.split('### ')[1]}
-            </p>;
-            if (line.startsWith('![](')) return <img
-              src={line.split('![](')[1].split(')')[0]}
-              className="w-full h-auto mb-12 mt-8 shadow-xl rounded"
-              alt="" key={i} />
-            if (line.startsWith('<')) return <div
-              key={i}
-              dangerouslySetInnerHTML={{ __html: line }}
-              className="mt-8 mb-12" />;
-            return <p key={i} className="text-zinc-600 mt-2">{line}</p>
-          })} */}
-
           {html && <div className="markdown" dangerouslySetInnerHTML={{ __html: html }} />}
-
         </div>
+
+        <div
+      className="w-full lg:m-12 mb-12 border
+      border-gray-200 dark:border-neutral-700 py-4 rounded-lg z-20"
+    >
+    
+      <p className="text-lg font-extrabold text-gray-800 dark:text-neutral-50 pb-2 border-b border-gray-200 dark:border-neutral-700">
+        <span className="px-4"></span>
+      </p>
+      <ul className="max-h-[calc(100vh-360px)] overflow-y-auto px-4">
+        {toc?.map((item: any) => {
+          return (
+            <li
+              style={{ paddingLeft: `${item.level - 2}rem` }}
+              className="mt-3 text-gray-600 cursor-pointer dark:text-neutral-400
+              hover:text-blue-500 transition duration-300 dark:hover:text-blue-500"
+            >
+              <a
+                className={`${
+                  item.level > 2 ? 'text-sm' : 'text-base'
+                } break-all 2xl:break-words`}
+                href={'#' + item.title}
+              >
+                {item.title}
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
       </div>
     </>}
   </div>

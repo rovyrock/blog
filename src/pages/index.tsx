@@ -26,7 +26,7 @@ export default function HomePage() {
   return (
     <div className="flex flex-row w-full justify-center flex-wrap">
       {!posts && <div
-        className="fixed w-screen h-screen flex justify-center items-center">
+        className="w-screen h-screen flex justify-center items-center">
         <p className="animate-pulse">Loading...</p>
       </div>}
       {posts && <div className="container flex flex-row w-full justify-center

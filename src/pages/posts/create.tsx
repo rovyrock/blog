@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 // @ts-ignore
 import { history } from 'umi';
 import TextInput from "@/components/TextInput";
@@ -14,6 +14,8 @@ export default function () {
   const [html, setHtml] = useState("")
   const [tags, setTags] = useState("");
   const [imageUrl, setImageUrl] = useState("");
+  const mdTextRef = useRef(null)
+  const mdPreviewRef = useRef(null)
 
   useEffect(() => {
     if (!document.cookie.includes('token')) {
@@ -61,7 +63,7 @@ export default function () {
       <p className="mt-8">标题</p>
       <TextInput value={title} onChange={setTitle} />
       <p className="mt-8">内文</p>
-      <TextInput textArea value={content} onChange={handleChangeContent} />
+      <TextInput textArea value={content} onChange={handleChangeContent} ref={mdTextRef}/>
       <p className="mt-8">标签 (以逗号隔开)</p>
       <TextInput value={tags} onChange={setTags} />
       <p className="mt-8">封面图片地址</p>
@@ -70,7 +72,7 @@ export default function () {
       <Button onClick={submit}>发布</Button>
     </div>
     <div className="flex-1">
-      <div className="markdown" dangerouslySetInnerHTML={{ __html: html }} />
+      <div ref={mdPreviewRef} className="markdown" dangerouslySetInnerHTML={{ __html: html }} />
     </div>
   </div>
 }
