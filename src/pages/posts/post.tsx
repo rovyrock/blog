@@ -2,14 +2,15 @@ import React, { useEffect, useState } from "react";
 // @ts-ignore
 import { useParams } from 'umi';
 import getMarkdown from '@/plugins/markdown';
-import {parseTitle} from "@/utils/toc"
+import { parseTitle } from "@/utils/toc"
+import Toc from './components/toc'
 import '@/assets/styles/code.scss';
 
 export default function PostPage() {
   const params = useParams();
   const [post, setPost] = useState<any>()
   const [html, setHtml] = useState<string>()
-  const [toc, setToc] = useState<{level: number, title: string}[]>()
+  const [toc, setToc] = useState<{ level: number, title: string }[]>()
 
   async function refresh() {
     try {
@@ -18,7 +19,7 @@ export default function PostPage() {
       if (res.status === 200) {
         setPost(post)
         const md = getMarkdown({});
-        setToc(parseTitle({content: post.content}))
+        setToc(parseTitle({ content: post.content }))
         // const html = md.render(post.content)
         setHtml(md.render(post.content))
         console.log('getMarkdown', html)
@@ -69,35 +70,36 @@ export default function PostPage() {
           {html && <div className="markdown" dangerouslySetInnerHTML={{ __html: html }} />}
         </div>
 
-        <div
-      className="w-full lg:m-12 mb-12 border
+        {toc && <Toc toc={toc} />}
+
+        {/* <div
+          className="w-full lg:m-12 mb-12 border
       border-gray-200 dark:border-neutral-700 py-4 rounded-lg z-20"
-    >
-    
-      <p className="text-lg font-extrabold text-gray-800 dark:text-neutral-50 pb-2 border-b border-gray-200 dark:border-neutral-700">
-        <span className="px-4"></span>
-      </p>
-      <ul className="max-h-[calc(100vh-360px)] overflow-y-auto px-4">
-        {toc?.map((item: any) => {
-          return (
-            <li
-              style={{ paddingLeft: `${item.level - 2}rem` }}
-              className="mt-3 text-gray-600 cursor-pointer dark:text-neutral-400
+        >
+
+          <p className="text-lg font-extrabold text-gray-800 dark:text-neutral-50 pb-2 border-b border-gray-200 dark:border-neutral-700">
+            <span className="px-4"></span>
+          </p>
+          <ul className="max-h-[calc(100vh-360px)] overflow-y-auto px-4">
+            {toc?.map((item: any) => {
+              return (
+                <li
+                  style={{ paddingLeft: `${item.level - 2}rem` }}
+                  className="mt-3 text-gray-600 cursor-pointer dark:text-neutral-400
               hover:text-blue-500 transition duration-300 dark:hover:text-blue-500"
-            >
-              <a
-                className={`${
-                  item.level > 2 ? 'text-sm' : 'text-base'
-                } break-all 2xl:break-words`}
-                href={'#' + item.title}
-              >
-                {item.title}
-              </a>
-            </li>
-          );
-        })}
-      </ul>
-    </div>
+                >
+                  <a
+                    className={`${item.level > 2 ? 'text-sm' : 'text-base'
+                      } break-all 2xl:break-words`}
+                    href={'#' + item.title}
+                  >
+                    {item.title}
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+        </div>*/}
       </div>
     </>}
   </div>
